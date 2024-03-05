@@ -68,7 +68,7 @@ if sentry_dsn:
 
 def set_updated_time(name):
     try:
-        check_call(f"touch {HEALTH_FILE_BASE}-{name}", shell=True, timeout=TIMEOUT_SECS)
+        check_call(f"touch {HEALTH_FILE_BASE}-{name}", shell=False, timeout=TIMEOUT_SECS)
     except Exception as ex:
         logging.error(ex)
         raise
@@ -76,7 +76,7 @@ def set_updated_time(name):
 
 def call_command(command):
     try:
-        check_call(f"python {MANAGE} {command}", shell=True, timeout=TIMEOUT_SECS)
+        check_call(f"python {MANAGE} {command}", shell=False, timeout=TIMEOUT_SECS)
     except Exception as ex:
         logging.error(ex)
         raise
@@ -137,9 +137,9 @@ def schedule_database_jobs():
             command += " --all"
 
         try:
-            check_call(command, shell=True, timeout=TIMEOUT_SECS)
+            check_call(command, shell=False, timeout=TIMEOUT_SECS)
             if not LOCAL_DB_UPDATE:
-                check_call("python bin/run-db-upload.py", shell=True, timeout=TIMEOUT_SECS)
+                check_call("python bin/run-db-upload.py", shell=False, timeout=TIMEOUT_SECS)
         except Exception as ex:
             logging.error(ex)
             raise
@@ -166,7 +166,7 @@ def schedule_file_jobs():
                 command += " --ignore-git"
 
             try:
-                check_call(command, shell=True, timeout=TIMEOUT_SECS)
+                check_call(command, shell=False, timeout=TIMEOUT_SECS)
             except Exception as ex:
                 logging.error(ex)
                 raise
