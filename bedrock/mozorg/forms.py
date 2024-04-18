@@ -4,7 +4,6 @@
 
 import re
 from datetime import datetime
-from random import randrange
 
 from django import forms
 from django.forms import widgets
@@ -12,6 +11,7 @@ from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 from lib.l10n_utils.fluent import ftl, ftl_lazy
+import secrets
 
 FORMATS = (("H", ftl_lazy("newsletter-form-html")), ("T", ftl_lazy("newsletter-form-text")))
 LANGS_TO_STRIP = ["en-US", "es"]
@@ -45,7 +45,7 @@ class HoneyPotWidget(widgets.TextInput):
         honeypot_txt = ftl("newsletter-form-leave-this-field-empty")
         # semi-randomized in case we have more than one per page.
         # this is maybe/probably overthought
-        honeypot_id = "office-fax-" + str(randrange(1001)) + "-" + str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
+        honeypot_id = "office-fax-" + str(secrets.SystemRandom().randrange(1001)) + "-" + str(datetime.now().strftime("%Y%m%d%H%M%S%f"))
         return mark_safe(
             '<div class="super-priority-field">'
             '<label for="%s">%s</label>'
