@@ -104,7 +104,7 @@ class Command(BaseCommand):
         jobs_removed = 0
         job_ids = []
 
-        response = requests.get(GREENHOUSE_URL.format(settings.GREENHOUSE_BOARD))
+        response = requests.get(GREENHOUSE_URL.format(settings.GREENHOUSE_BOARD), timeout=60)
         response.raise_for_status()
 
         data = response.json()
