@@ -10,6 +10,7 @@ from django.utils.timezone import make_aware, utc
 
 import requests
 from sentry_sdk import capture_exception
+from security import safe_requests
 
 
 def get_articles_data(count=8):
@@ -52,7 +53,7 @@ def check_article_image(article):
     # sanity check to make sure image provided by API actually exists and is https
     if article["image_src"] and re.match(r"^https://", article["image_src"], flags=re.I):
         try:
-            resp = requests.get(article["image_src"])
+            resp = safe_requests.get(article["image_src"])
             resp.raise_for_status()
         except Exception:
             capture_exception()

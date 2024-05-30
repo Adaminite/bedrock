@@ -6,13 +6,12 @@ import os
 
 from django.conf import settings
 from django.core.management.base import BaseCommand
-
-import requests
 from envcat import get_env_vars
 
 from bedrock.base.models import ConfigValue
 from bedrock.utils.git import GitRepo
 from bedrock.utils.management.decorators import alert_sentry_on_exception
+from security import safe_requests
 
 
 def get_config_file_name(app_name=None):
@@ -100,8 +99,7 @@ class Command(BaseCommand):
             # Nothing to do, leave everything as-is.
             return obj
 
-        resp = requests.get(
-            settings.MONITOR_ENDPOINT, headers={"Content-Type": "application/json", "Authorization": f"Bearer {settings.MONITOR_TOKEN}"}
+        resp = safe_requests.get(settings.MONITOR_ENDPOINT, headers={"Content-Type": "application/json", "Authorization": f"Bearer {settings.MONITOR_TOKEN}"}
         )
         if resp.status_code != 200:
             self.output(f"Error getting monitor data: {repr(resp)}")
