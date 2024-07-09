@@ -32,7 +32,6 @@ ADVISORIES_PATH = settings.MOFO_SECURITY_ADVISORIES_PATH
 ADVISORIES_BRANCH = settings.MOFO_SECURITY_ADVISORIES_BRANCH
 
 SM_RE = re.compile(r"seamonkey", flags=re.IGNORECASE)
-FNULL = open(os.devnull, "w")
 HOF_FILES = ["client.yml", "web.yml"]
 HOF_DIRECTORY = "bug-bounty-hof"
 
