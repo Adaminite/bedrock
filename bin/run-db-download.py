@@ -29,7 +29,7 @@ def get_file_url(filename):
 
 def download_db_info():
     try:
-        resp = requests.get(get_file_url(JSON_DATA_FILE_NAME))
+        resp = requests.get(get_file_url(JSON_DATA_FILE_NAME), timeout=60)
         resp.raise_for_status()
     except requests.RequestException:
         return None
@@ -42,7 +42,7 @@ def download_db_info():
 
 
 def download_db_file(filename):
-    resp = requests.get(get_file_url(os.path.basename(filename)), stream=True)
+    resp = requests.get(get_file_url(os.path.basename(filename)), stream=True, timeout=60)
     with open(filename, "wb") as fp:
         for chunk in resp.iter_content(chunk_size=128):
             fp.write(chunk)

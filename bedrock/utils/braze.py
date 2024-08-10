@@ -61,7 +61,7 @@ class BrazeClient:
 
         data = {"attributes": [attributes], "events": [event]}
         headers = {"Authorization": f"Bearer {self.api_key}"}
-        resp = requests.post(self.track_user_api_url, json=data, headers=headers)
+        resp = requests.post(self.track_user_api_url, json=data, headers=headers, timeout=60)
         resp.raise_for_status()
         return resp.json()
 

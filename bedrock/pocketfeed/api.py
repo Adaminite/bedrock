@@ -52,7 +52,7 @@ def check_article_image(article):
     # sanity check to make sure image provided by API actually exists and is https
     if article["image_src"] and re.match(r"^https://", article["image_src"], flags=re.I):
         try:
-            resp = requests.get(article["image_src"])
+            resp = requests.get(article["image_src"], timeout=60)
             resp.raise_for_status()
         except Exception:
             capture_exception()
