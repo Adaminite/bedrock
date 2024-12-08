@@ -10,12 +10,12 @@ from django.core.management.base import BaseCommand
 from django.db import transaction
 
 import bleach
-import requests
 from bleach.css_sanitizer import CSSSanitizer
 from html5lib.filters.base import Filter
 
 from bedrock.careers.models import Position
 from bedrock.utils.management.decorators import alert_sentry_on_exception
+from security import safe_requests
 
 GREENHOUSE_URL = "https://api.greenhouse.io/v1/boards/{}/jobs/?content=true"
 # to see the raw data for debugging use this command:
@@ -104,7 +104,7 @@ class Command(BaseCommand):
         jobs_removed = 0
         job_ids = []
 
-        response = requests.get(GREENHOUSE_URL.format(settings.GREENHOUSE_BOARD))
+        response = safe_requests.get(GREENHOUSE_URL.format(settings.GREENHOUSE_BOARD))
         response.raise_for_status()
 
         data = response.json()
