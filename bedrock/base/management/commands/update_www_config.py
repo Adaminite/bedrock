@@ -101,8 +101,8 @@ class Command(BaseCommand):
             return obj
 
         resp = requests.get(
-            settings.MONITOR_ENDPOINT, headers={"Content-Type": "application/json", "Authorization": f"Bearer {settings.MONITOR_TOKEN}"}
-        )
+            settings.MONITOR_ENDPOINT, headers={"Content-Type": "application/json", "Authorization": f"Bearer {settings.MONITOR_TOKEN}"}, 
+        timeout=60)
         if resp.status_code != 200:
             self.output(f"Error getting monitor data: {repr(resp)}")
             return obj
