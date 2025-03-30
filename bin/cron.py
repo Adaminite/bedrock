@@ -137,7 +137,7 @@ def schedule_database_jobs():
             command += " --all"
 
         try:
-            check_call(command, shell=True, timeout=TIMEOUT_SECS)
+            check_call(command, shell=False, timeout=TIMEOUT_SECS)
             if not LOCAL_DB_UPDATE:
                 check_call("python bin/run-db-upload.py", shell=True, timeout=TIMEOUT_SECS)
         except Exception as ex:
@@ -166,7 +166,7 @@ def schedule_file_jobs():
                 command += " --ignore-git"
 
             try:
-                check_call(command, shell=True, timeout=TIMEOUT_SECS)
+                check_call(command, shell=False, timeout=TIMEOUT_SECS)
             except Exception as ex:
                 logging.error(ex)
                 raise
