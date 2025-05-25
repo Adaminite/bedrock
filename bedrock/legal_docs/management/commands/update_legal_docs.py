@@ -24,7 +24,7 @@ class Command(BaseCommand):
 
     def snitch(self):
         if settings.LEGAL_DOCS_DMS_URL:
-            requests.get(settings.LEGAL_DOCS_DMS_URL)
+            requests.get(settings.LEGAL_DOCS_DMS_URL, timeout=60)
 
     def handle(self, *args, **options):
         self.quiet = options["quiet"]
