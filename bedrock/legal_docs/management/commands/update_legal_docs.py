@@ -5,11 +5,10 @@
 from django.conf import settings
 from django.core.management.base import BaseCommand
 
-import requests
-
 from bedrock.legal_docs.models import LegalDoc
 from bedrock.utils.git import GitRepo
 from bedrock.utils.management.decorators import alert_sentry_on_exception
+from security import safe_requests
 
 
 @alert_sentry_on_exception
@@ -24,7 +23,7 @@ class Command(BaseCommand):
 
     def snitch(self):
         if settings.LEGAL_DOCS_DMS_URL:
-            requests.get(settings.LEGAL_DOCS_DMS_URL)
+            safe_requests.get(settings.LEGAL_DOCS_DMS_URL)
 
     def handle(self, *args, **options):
         self.quiet = options["quiet"]

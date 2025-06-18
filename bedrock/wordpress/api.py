@@ -3,15 +3,14 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 from django.conf import settings
-
-import requests
 from sentry_sdk import capture_exception
+from security import safe_requests
 
 
 def _request(api_url, limit=None, page=1):
     # 100 is max per page from WP
     per_page = limit or 100
-    resp = requests.get(api_url, params={"per_page": per_page, "page": page}, timeout=5)
+    resp = safe_requests.get(api_url, params={"per_page": per_page, "page": page}, timeout=5)
     resp.raise_for_status()
     data = resp.json()
     if limit is None and page == 1:
