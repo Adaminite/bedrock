@@ -3,7 +3,6 @@
 # file, You can obtain one at https://mozilla.org/MPL/2.0/.
 
 import operator
-import random
 from functools import reduce
 
 from django.conf import settings
@@ -19,6 +18,7 @@ from markupsafe import Markup
 from sentry_sdk import capture_exception
 
 from bedrock.wordpress.api import complete_posts_data, get_posts_data
+import secrets
 
 
 def make_datetime(datestr):
@@ -182,7 +182,7 @@ class BlogPost(models.Model):
         """
         matching_tags = list(set(self.tags) & set(tags))
         if matching_tags:
-            return random.choice(matching_tags)
+            return secrets.choice(matching_tags)
         else:
             return ""
 
